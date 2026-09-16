@@ -23,7 +23,7 @@ export default function ServiceOrdersScreen({ navigation }) {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState('');
-  const [filter, setFilter] = useState('ALL');
+  const [filter, setFilter] = useState('OPEN');
   const [ascending, setAscending] = useState(false);
 
   const load = useCallback(async (refresh = false) => {
