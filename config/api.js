@@ -13,6 +13,7 @@ export const API_PATHS = {
   resetPassword: '/api/auth/v1/reset-password',
 
   ceos: '/api/ceo/v1',
+  ceosPage: (page = 0, size = 200) => `/api/ceo/v1?page=${page}&size=${size}`,
   ceoById: (id) => `/api/ceo/v1/id/${encodeURIComponent(id)}`,
   ceoByBoxNumber: (boxNumber) => `/api/ceo/v1/box-number/${encodeURIComponent(boxNumber)}`,
   ceoSearch: (query) => `/api/ceo/v1/search?q=${encodeURIComponent(query)}`,

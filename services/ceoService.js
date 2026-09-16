@@ -26,7 +26,12 @@ function unwrapOne(data) {
 export async function listCeos(query = '') {
   const value = String(query).trim();
   if (!value) {
-    const response = await api.get(API_PATHS.ceos);
+    // GET /api/ceo/v1 agora é paginado (padrão de 20 por página); a tela
+    // de listagem usa a visão "sem busca" pra destacar CEOs que precisam
+    // de atenção, então pedimos uma página bem maior pra não perder itens
+    // que estariam em páginas seguintes. Se a base de CEOs crescer muito
+    // além disso, o ideal passa a ser um filtro de status no backend.
+    const response = await api.get(API_PATHS.ceosPage(0, 200));
     return unwrapList(response.data);
   }
 
