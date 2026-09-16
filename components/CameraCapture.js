@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { Alert, Image, Linking, Pressable, StyleSheet, Text, View } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
+import { ImageManipulator, SaveFormat } from 'expo-image-manipulator';
 import { colors, fontSize, fontWeight, radius, spacing } from '../theme';
 import { getApiErrorMessage } from '../services/api';
 import { uploadServiceOrderPhoto } from '../services/serviceOrderPhotoService';
@@ -17,6 +18,21 @@ const DENIED_TEXT = {
     text: 'A galeria é necessária para selecionar fotos já existentes. Permita o acesso nas configurações do sistema.',
   },
 };
+
+// Fotos vindas da galeria podem estar em HEIC/HEIF (padrão em iPhones e em
+// alguns Samsung com "formato de imagem eficiente"), formato que o backend
+// não aceita e a maioria dos navegadores não renderiza. Reconvertemos tudo
+// pra JPEG aqui, igual já acontece com a captura pela câmera do app.
+async function toJpeg(asset, fallbackName) {
+  const context = ImageManipulator.manipulate(asset.uri);
+  const image = await context.renderAsync();
+  const result = await image.saveAsync({ format: SaveFormat.JPEG, compress: 0.8 });
+  context.release();
+  image.release();
+
+  const baseName = (asset.fileName || fallbackName).replace(/\.[^.]+$/, '');
+  return { uri: result.uri, mimeType: 'image/jpeg', fileName: `${baseName}.jpg` };
+}
 
 // Modos: idle -> camera | preview -> sending (ou "denied" se a permissão
 // da câmera/galeria for negada, com `deniedFor` indicando qual das duas).
@@ -82,12 +98,13 @@ export default function CameraCapture({ serviceOrderId, onUploaded, deferUpload 
       return;
     }
 
-    setPreview({
-      uri: asset.uri,
-      mimeType: asset.mimeType || 'image/jpeg',
-      fileName: asset.fileName || `os-${serviceOrderId}-${Date.now()}.jpg`,
-    });
-    setMode('preview');
+    try {
+      const jpeg = await toJpeg(asset, `os-${serviceOrderId}-${Date.now()}`);
+      setPreview(jpeg);
+      setMode('preview');
+    } catch (err) {
+      setError('Não foi possível processar a imagem selecionada.');
+    }
   }
 
   async function sendPhoto() {
