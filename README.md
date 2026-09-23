@@ -78,7 +78,7 @@ O backend, ao subir com o banco vazio, já cria usuários de exemplo:
 
 | E-mail | Senha | Perfil |
 |---|---|---|
-| god@fiberlocator.com | god123 | GOD_ADMIN |
+| superadmin@fiberlocator.com | superadmin123 | SUPER_ADMIN |
 | admin@fiberlocator.com | admin123 | ADMIN |
 | carlos.silva@fiberlocator.com | tech123 | FIELD_TECHNICIAN |
 

@@ -17,7 +17,7 @@ export default function CeoDetailsScreen({ route, navigation }) {
   const { ceo: initialCeo, ceoId } = route?.params || {};
   const id = ceoId ?? initialCeo?.id;
   const { user } = useAuth();
-  const canOpenServiceOrder = (user?.roles || []).some((role) => role === 'GOD_ADMIN' || role === 'ADMIN');
+  const canOpenServiceOrder = (user?.roles || []).some((role) => role === 'SUPER_ADMIN' || role === 'ADMIN');
 
   const [ceo, setCeo] = useState(initialCeo || null);
   const [loading, setLoading] = useState(!initialCeo);

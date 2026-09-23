@@ -5,7 +5,7 @@ import { createUser } from '../services/userService';
 import { Button, Chip, PageHeader, Screen, TextField } from '../components/ui';
 import { colors, fontSize, fontWeight, spacing } from '../theme';
 
-const AVAILABLE_ROLES = ['FIELD_TECHNICIAN', 'ADMIN', 'GOD_ADMIN'];
+const AVAILABLE_ROLES = ['FIELD_TECHNICIAN', 'ADMIN', 'SUPER_ADMIN'];
 
 export default function UserFormScreen({ navigation }) {
   const [name, setName] = useState('');

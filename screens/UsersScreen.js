@@ -7,7 +7,7 @@ import { searchUsers } from '../services/userService';
 import { Button, Card, ErrorBanner, HeroHeader, InfoRow, LoadingView, Screen, SectionCard } from '../components/ui';
 import { colors, fontSize, fontWeight, radius, spacing } from '../theme';
 
-const ADMIN_ROLES = ['ADMIN', 'GOD_ADMIN'];
+const ADMIN_ROLES = ['ADMIN', 'SUPER_ADMIN'];
 
 export default function UsersScreen({ navigation }) {
   const { user } = useAuth();
