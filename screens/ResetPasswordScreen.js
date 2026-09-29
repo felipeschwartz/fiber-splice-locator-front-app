@@ -5,7 +5,7 @@ import { resetPassword } from '../services/authService';
 import { Button, Card, ErrorBanner, Screen, TextField } from '../components/ui';
 import { colors, fontSize, fontWeight, spacing } from '../theme';
 
-const MIN_PASSWORD_LENGTH = 6;
+const MIN_PASSWORD_LENGTH = 8;
 
 export default function ResetPasswordScreen({ route, navigation }) {
   const initialEmail = route?.params?.email || '';

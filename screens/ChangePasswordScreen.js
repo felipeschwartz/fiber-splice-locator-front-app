@@ -5,7 +5,7 @@ import { changeOwnPassword } from '../services/userService';
 import { Button, PageHeader, Screen, TextField } from '../components/ui';
 import { spacing } from '../theme';
 
-const MIN_PASSWORD_LENGTH = 6;
+const MIN_PASSWORD_LENGTH = 8;
 
 export default function ChangePasswordScreen({ navigation }) {
   const [currentPassword, setCurrentPassword] = useState('');

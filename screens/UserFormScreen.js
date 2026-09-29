@@ -6,6 +6,7 @@ import { Button, Chip, PageHeader, Screen, TextField } from '../components/ui';
 import { colors, fontSize, fontWeight, spacing } from '../theme';
 
 const AVAILABLE_ROLES = ['FIELD_TECHNICIAN', 'ADMIN', 'SUPER_ADMIN'];
+const MIN_PASSWORD_LENGTH = 8;
 
 export default function UserFormScreen({ navigation }) {
   const [name, setName] = useState('');
@@ -22,6 +23,11 @@ export default function UserFormScreen({ navigation }) {
   async function save() {
     if (!name.trim() || !email.trim() || !password.trim()) {
       Alert.alert('Campos obrigatórios', 'Preencha nome, e-mail e senha.');
+      return;
+    }
+
+    if (password.length < MIN_PASSWORD_LENGTH) {
+      Alert.alert('Senha muito curta', `A senha deve ter pelo menos ${MIN_PASSWORD_LENGTH} caracteres.`);
       return;
     }
 
@@ -57,7 +63,7 @@ export default function UserFormScreen({ navigation }) {
         autoCapitalize="none"
         keyboardType="email-address"
       />
-      <TextField label="Senha" value={password} onChangeText={setPassword} placeholder="Senha provisória" secureTextEntry />
+      <TextField label="Senha" value={password} onChangeText={setPassword} placeholder={`Senha provisória (mínimo de ${MIN_PASSWORD_LENGTH} caracteres)`} secureTextEntry />
 
       <Text style={styles.label}>Perfil de acesso</Text>
       <View style={styles.chipRow}>
