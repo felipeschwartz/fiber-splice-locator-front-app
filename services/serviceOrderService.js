@@ -35,11 +35,6 @@ export async function createServiceOrder({ ceoId, ceoStatus, userId, statusDescr
   return unwrap(data);
 }
 
-export async function updateServiceOrderStatus(serviceOrderId, status) {
-  const { data } = await api.put(API_PATHS.updateServiceOrder(serviceOrderId), { status });
-  return unwrap(data);
-}
-
 export async function completeServiceOrderAttendance(serviceOrderId, { status, statusDescription, geoLocation }) {
   const { data } = await api.post(API_PATHS.serviceOrderAttendance(serviceOrderId), {
     status,
