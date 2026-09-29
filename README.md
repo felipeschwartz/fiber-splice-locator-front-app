@@ -56,21 +56,28 @@ Com o terminal do Expo aberto:
 
 ## Configurar a API
 
-O endereço do backend fica em `config/api.js`:
+O endereço do backend vem da variável de ambiente `EXPO_PUBLIC_API_BASE_URL`,
+lida em `config/api.js`. Se ela não for informada, o app usa
+`http://10.0.2.2:8080`:
 
 ```js
-export const API_BASE_URL = 'http://10.0.2.2:8080';
+export const API_BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL || 'http://10.0.2.2:8080';
 ```
 
-- **Emulador Android** (padrão do projeto): `http://10.0.2.2:8080` — um
-  endereço especial que o próprio emulador redireciona para o `localhost` da
-  máquina, sem precisar de nenhuma configuração de rede.
-- **Celular físico**, na mesma rede do computador: troque pelo IP local da
-  máquina que roda o backend (descubra com `ipconfig` no Windows ou
-  `ifconfig`/`ip a` no Linux/Mac), por exemplo `http://192.168.0.10:8080`.
+- **Emulador Android** (padrão em desenvolvimento): `http://10.0.2.2:8080` é
+  um endereço especial que o próprio emulador redireciona para o `localhost`
+  da máquina, sem precisar de nenhuma configuração de rede.
+- **Celular físico**, na mesma rede do computador: crie um arquivo `.env.local`
+  (ignorado pelo git) com `EXPO_PUBLIC_API_BASE_URL` apontando para o IP local
+  da máquina que roda o backend (descubra com `ipconfig` no Windows ou
+  `ifconfig`/`ip a` no Linux/Mac), por exemplo `EXPO_PUBLIC_API_BASE_URL=http://192.168.0.10:8080`.
   Nesse caso é necessário também que o firewall do computador libere a porta
   8080 para conexões de entrada, e que a rede esteja configurada como
   "Privada" (no Windows, redes "Públicas" bloqueiam isso por padrão).
+- **APK gerado pelo EAS** (perfis `preview` e `production` do `eas.json`):
+  aponta para o servidor de testes, `https://4-228-99-110.sslip.io`. O endereço
+  precisa ser HTTPS, porque o Android bloqueia HTTP puro nos apps instalados.
+  Para trocar de servidor, altere o `eas.json` e gere um APK novo.
 
 ## Contas de teste
 

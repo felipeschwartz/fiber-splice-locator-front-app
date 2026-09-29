@@ -5,8 +5,7 @@ import { tokenStorage } from './storage';
 export const api = axios.create({
   baseURL: API_BASE_URL,
   headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-  // 45s pra tolerar o cold start do backend no plano free do Render
-  // (a primeira requisição depois de ~15min sem tráfego pode levar 30-60s).
+  // 45s pra dar tempo de enviar fotos de até 20MB em rede móvel lenta.
   timeout: 45000,
 });
 

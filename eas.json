@@ -17,13 +17,13 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_API_BASE_URL": "https://fiber-splice-locator.onrender.com"
+        "EXPO_PUBLIC_API_BASE_URL": "https://4-228-99-110.sslip.io"
       }
     },
     "production": {
       "autoIncrement": true,
       "env": {
-        "EXPO_PUBLIC_API_BASE_URL": "https://fiber-splice-locator.onrender.com"
+        "EXPO_PUBLIC_API_BASE_URL": "https://4-228-99-110.sslip.io"
       }
     }
   },
