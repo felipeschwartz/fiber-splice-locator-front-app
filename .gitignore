@@ -12,3 +12,4 @@ web-build/
 npm-debug.*
 *.log
 .env*.local
+.idea/
