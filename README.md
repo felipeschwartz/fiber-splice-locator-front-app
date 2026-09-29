@@ -27,6 +27,11 @@ Junior, Diego Ribeiro Torres, Lucas Candido Vargas
 - **Axios** para chamadas HTTP
 - **expo-camera**, **expo-location**, **expo-secure-store** (câmera, GPS e
   armazenamento seguro do token de login)
+- **expo-image-picker** + **expo-image-manipulator** (fotos da galeria,
+  convertidas para JPEG antes do envio, inclusive as HEIC do iPhone)
+- **expo-notifications** (notificação push quando uma OS é atribuída ao
+  técnico)
+- **expo-local-authentication** (desbloqueio do app por biometria)
 - **@expo/vector-icons** (ícones)
 - TypeScript apenas para checagem de tipos (`npm run typecheck`) — o código é
   escrito em JavaScript
@@ -79,15 +84,52 @@ export const API_BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL || 'http://10.0
   precisa ser HTTPS, porque o Android bloqueia HTTP puro nos apps instalados.
   Para trocar de servidor, altere o `eas.json` e gere um APK novo.
 
+## Gerar o APK (EAS)
+
+O APK instalável é gerado na nuvem pelo **EAS Build**, com a sua conta do
+Expo. A ferramenta de linha de comando não vem com o Expo; dá para usar sem
+instalar:
+
+```bash
+npx eas-cli build -p android --profile preview
+```
+
+Ou instalar uma vez (`npm install -g eas-cli`) e usar `eas build -p android
+--profile preview`. Na primeira vez, o EAS pede login na conta do Expo (dona do
+projeto: `felipeschwartz.br`, conforme o `app.json`). No fim do build, ele
+mostra um link/QR code para baixar o APK no celular.
+
+O app **não** tem atualização pelo ar: qualquer mudança de código ou de
+endereço da API exige gerar e instalar um APK novo.
+
 ## Contas de teste
 
-O backend, ao subir com o banco vazio, já cria usuários de exemplo:
+Com o backend no perfil `dev` (o padrão para desenvolvimento), ao subir com o
+banco vazio ele cria usuários de exemplo:
 
 | E-mail | Senha | Perfil |
 |---|---|---|
 | superadmin@fiberlocator.com | superadmin123 | SUPER_ADMIN |
 | admin@fiberlocator.com | admin123 | ADMIN |
 | carlos.silva@fiberlocator.com | tech123 | FIELD_TECHNICIAN |
+
+Essas contas **não existem** no perfil `prod` do backend (veja o README do
+backend).
+
+## Regras de acesso que o app reflete
+
+As regras valem no backend; o app mostra as mensagens de erro que ele envia:
+
+- **Login:** depois de 5 senhas erradas para o mesmo e-mail, a partir do
+  mesmo aparelho/rede, o login fica bloqueado por 15 minutos ("Muitas
+  tentativas. Tente novamente em X minuto(s)."). O "Esqueci minha senha"
+  também tem limite de pedidos.
+- **Senhas:** novas senhas (criação de usuário, troca e redefinição) precisam
+  ter pelo menos 8 caracteres.
+- **Ordens de serviço:** o técnico **vê** qualquer OS (o histórico de uma CEO
+  mostra as OS de todos), mas só **atende e anexa fotos** nas OS atribuídas a
+  ele. Administradores podem atender qualquer uma.
+- **Busca de usuários:** devolve só ID, nome e e-mail, para qualquer perfil.
 
 ## Estrutura do projeto
 
@@ -130,3 +172,4 @@ rota em `App.js` e, se fizer sentido como atalho principal, em
 ## Repositórios relacionados
 
 - **BackEnd:** [fiber-splice-locator](https://github.com/felipeschwartz/fiber-splice-locator)
+- **Painel web:** [fiber-splice-locator-front-web](https://github.com/felipeschwartz/fiber-splice-locator-front-web)
